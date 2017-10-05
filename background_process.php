@@ -331,7 +331,7 @@
 <html>
     <head>
         <title>Background Process</title>
-		<script src="newgrid/jquery-1.11.1.min.js"></script>
+		<script src="jquery-1.11.1.min.js"></script>
     </head>
     <body  >
 			<h3>Background Process Test</h3>
