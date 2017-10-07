@@ -1,34 +1,5 @@
 <?php
    error_reporting(E_ALL);
-	//test1.php
-	//$command = "/usr/bin/php -f /var/www/liwaerp.com/public/test2.php";
-	//exec( "$command > /dev/null &", $arrOutput );
-	//print_r($arrOutput);
-	//test2.php
-	//exec( "ps > /dev/null &", $arrOutput );
-	//file_put_contents('test.txt',implode('\n', $arrOutput));
-/*
-	function run_in_background($Command, $Priority = 0){
-       if($Priority)
-           $PID = shell_exec("nohup nice -n $Priority $Command 2> /dev/null & echo $!");
-       else
-           $PID = shell_exec("nohup $Command 2> /dev/null & echo $!");
-       return($PID);
-   }
-   function is_process_running($PID){
-       exec("ps $PID", $ProcessState);
-       return(count($ProcessState) >= 2);
-   }
-	
-		echo("Running background process. . .");
-	$ps = run_in_background("/usr/bin/php -f  /var/www/liwaerp.com/public/long_process.php");
-	  while(is_process_running($ps)) {
-		 echo(" . ");
-		   ob_flush(); flush();
-				sleep(1);
-	   }
-		echo("process finished.");
-	*/
 		
 	class BackgroundProcess{
 		const OS_WINDOWS = 1;
@@ -60,37 +31,7 @@
 			}
 			switch ($this->getOS()) {
 				case self::OS_WINDOWS:
-					//shell_exec(sprintf('%s &', $this->command, $outputFile));
-					//pclose(popen("start /B ". $this->command, "r"));
-					/*
-						$WshShell = new COM("WScript.Shell");
-						//chdir($this->CurrentDirectory);
-						$WshShell->CurrentDirectory= $this->CurrentDirectory;
-						
-						$oExec = $WshShell->exec($this->command);// exec or run(no procees id)
-
-					 $this->pid =$oExec->ProcessID;
-						 // var_dump( $oExec->status);
-						 $output='';
-							while($oExec->status==0){//
-								//$WScript->Sleep( 100);
-								//sleep(1);
-								if(!$oExec->StdOut->AtEndOfStream){
-									$output.=$oExec->StdOut->Read(1);
-								}
-							}
-							// $oExec->StdIn->Write ('\n');
-						
-							//switch($oExec->status){
-							//		case 1:
-							//			$output=$oExec->StdOut->ReadAll();
-							//		break;
-							//		default:
-							//			$output=$oExec->StdErr->ReadAll();
-							//		break;
-							//}
-							  echo $output;
-						*/
+					
 							//$cmd = 'wmic process call create "C:/xampp/php/php.exe -f /path/to/htdocs/test.php" | find "ProcessId"';
 							$cmd = 'wmic process call create "'.$this->command.'" | find "ProcessId"';
 							$handle = popen("start /B ". $cmd, "r");
@@ -188,37 +129,9 @@
 			return $process;
 		}
 	}
-	
-	//echo PHP_BINARY ;
-	//echo '<br>';
-	//echo ini_get('open_basedir') ;
-	//echo __DIR__ ;
-	//echo '<br>';
-	
-	
-	//$process = new BackgroundProcess('sleep 5');
-	$process = new BackgroundProcess();
-	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {//'This is a server using Windows!';
-			//$WshShell = new COM("WScript.Shell");
-			//$WshShell->CurrentDirectory= $php_path;
-			//$oExec = $WshShell->run('php.exe -f  '.$path.'\long_process.php ');
 		
-		//$process->set_command(   'notepad.exe' );
-		$path=str_replace('\\','/',__DIR__ ) ;
-		$path=str_replace('/','\\',$path ) ;
-		//$process->set_CurrentDirectory(    $path    );
-		//echo $path.'<br>';
-				$php_path='E:\Ampps\php';//very important to run php
-		//$process->set_CurrentDirectory(    $php_path    );
-		//$process->set_command(   'E:\Ampps\php\php.exe -f  '.$path.'\long_process.php' );
-		 //$process->set_command(   'php.exe '.$path.'\long_process.php' );
-		 //start /B wmic process call create "E:\Ampps\php\php.exe -f E:\Work\HR\laravel-5.4.23\public\long_process.php" | find "ProcessId"
-		 // will output ProcessId = 11804;
-		 $process->set_command(   $php_path.'\php.exe '.$path.'\long_process.php' );	
-		 
-	}else{
-		$process->set_command('/usr/bin/php -f  /var/www/liwaerp.com/public/long_process.php');
-	}
+	//$process = new BackgroundProcess('sleep 5');
+	
 	//		$process->run();
 			
 		//	echo  'Crunching numbers in process '. $process->getPid() ;
@@ -279,7 +192,7 @@
 					if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {//'This is a server using Windows!';
 						 $cmd=  $php_path.'\php.exe '.$path.'\long_process.php' ;	
 					}else{
-						$cmd='/usr/bin/php -f  /var/www/liwaerp.com/public/long_process.php';
+						$cmd='/usr/bin/php -f  /var/www/example.com/public/long_process.php';
 					}
 	if($_SERVER['REQUEST_METHOD']=='POST' &&  isset($_REQUEST['head']) ){
 			switch($_REQUEST['head']){
